@@ -1,18 +1,18 @@
 <?php
 
-namespace ihrname\Controller;
+namespace LucStr\Controller;
 
-use ihrname\SimpleTemplateEngine;
+use LucStr\SimpleTemplateEngine;
 
 class IndexController 
 {
   /**
-   * @var ihrname\SimpleTemplateEngine Template engines to render output
+   * @var LucStr\SimpleTemplateEngine Template engines to render output
    */
   private $template;
   
   /**
-   * @param ihrname\SimpleTemplateEngine
+   * @param LucStr\SimpleTemplateEngine
    */
   public function __construct(SimpleTemplateEngine $template)
   {

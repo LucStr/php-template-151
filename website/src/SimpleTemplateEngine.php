@@ -1,6 +1,6 @@
 <?php
 
-namespace ihrname;
+namespace LucStr;
 
 /**
  * Simple Template-Engine which provides arguments into a template,

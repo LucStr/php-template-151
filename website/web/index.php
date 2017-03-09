@@ -9,8 +9,8 @@ switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		(new LucStr\Controller\IndexController($tmpl))->homepage();
 		break;
-	case "/testroute":
-		echo "test";
+	case "/login":
+		(new LucStr\Controller\LoginController($tmpl))->showLogin();
 		break;
 	default:
 		$matches = [];

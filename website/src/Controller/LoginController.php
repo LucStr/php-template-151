@@ -3,6 +3,7 @@
 namespace LucStr\Controller;
 
 use LucStr\SimpleTemplateEngine;
+use LucStr\Service\User\UserService;
 
 class LoginController 
 {
@@ -10,14 +11,14 @@ class LoginController
    * @var LucStr\SimpleTemplateEngine Template engines to render output
    */
   private $template;
-  private $pdo;
+  private $userService;
   /**
    * @param LucStr\SimpleTemplateEngine
    */
-  public function __construct(SimpleTemplateEngine $template, \PDO $pdo)
+  public function __construct(SimpleTemplateEngine $template, UserService $userService)
   {
      $this->template = $template;
-     $this->pdo = $pdo;
+     $this->userService = $userService;
   }
 
   public function showLogin()
@@ -27,27 +28,19 @@ class LoginController
   
   public function login(array $data)
   {
-  	if(!array_key_exists("email", $data) OR !array_key_exists("password", $data)){
+  	if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
   		$this->showLogin();
   		return;
   	}
-  	
-  	$stmt = $this->pdo->prepare("SELECT * FROM user WHERE email=? AND password=?");
-  	$stmt->bindValue(1, $data["email"]);
-  	$stmt->bindValue(2, $data["password"]);
-  	$stmt->execute();
-  	
-  	if($stmt->rowCount() == 1){
-  		echo "Login successful!";
-  		$_SESSION["email"] = $data["email"];
-  		header("Location: /");
+  	if($this->userService->authenticate($data["username"], $data["password"])){
+  		$_SESSION["username"] = $data["username"];
   	} else{
   		echo $this->template->render("login.html.php", [
-  				"email" => $data["email"]  				
+  				"username" => $data["username"]  				
   		]);
   		echo "Login failed";
   	}
-  	//echo "Mail:" . $_REQUEST["email"] . " Passwort: " . $_REQUEST["password"];
+
   	return;
   }
 }

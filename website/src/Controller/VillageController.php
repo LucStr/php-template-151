@@ -2,27 +2,23 @@
 
 namespace LucStr\Controller;
 
-use LucStr\SimpleTemplateEngine;
-use LucStr\Service\User\UserService;
-
-class RegistrationController 
+class VillageController extends BaseController
 {
-  /**
-   * @var LucStr\SimpleTemplateEngine Template engines to render output
-   */
-  private $template;
-  private $userService;
-  /**
-   * @param LucStr\SimpleTemplateEngine
-   */
-  public function __construct(SimpleTemplateEngine $template, UserService $userService)
+  public function Index()
   {
-     $this->template = $template;
-     $this->userService = $userService;
+	$villageService = $this->factory->getVillageService();
+	$villages = $villageService->getVillagesByUser($_SESSION["userId"]);	
+  	return $this->view(["villages" => $villages]);
   }
   
-  public function overview()
-  {
-  	echo $this->template->render("overview.html.php");
+  public function Overview($villageId){
+  	$villageService = $this->factory->getVillageService();
+  	$villageService->updateVillageById($villageId);
+  	$village = $villageService->getVillageById($villageId);
+	if($village["userId"] != $_SESSION["userId"]){
+		echo "Du hast keine Berechtigung für dieses Dorf!";
+		return;
+	}
+	
   }
 }

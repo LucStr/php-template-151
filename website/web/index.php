@@ -1,5 +1,4 @@
 <?php
-
 use LucStr\Factory;
 
 error_reporting(E_ALL);
@@ -8,10 +7,29 @@ session_start();
 require_once("../vendor/autoload.php");
 $factory = Factory::crateFromInitFile(__DIR__ . "/../config.ini");
 
+$uri_parts = strtok($_SERVER["REQUEST_URI"],'?');
+$controllername = strtok($uri_parts,'/');
+$actionname = strtok('/');
+if(empty($controllername)){
+	$controllername = "Index";
+	$actionname = "Index";
+}
+if(empty($actionname)){
+	$actionname = "Index";
+}
 
-$userService = $factory->getUserService();
+$GLOBALS["controllername"] = $controllername;
+$GLOBALS["actionname"] = $actionname;
+
+$controllerlocation = "LucStr\Controller\\" . $controllername . "Controller";
+$controller = new $controllerlocation($factory);
 
 
+
+
+$controller->executeAction($actionname);
+
+/*
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
 		$factory->getIndexController()->homepage();
@@ -39,5 +57,5 @@ switch($_SERVER["REQUEST_URI"]) {
 			break;
 		}
 		echo "Not Found";
-}
+}*/
 

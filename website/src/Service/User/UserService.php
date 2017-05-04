@@ -5,4 +5,5 @@ interface UserService
 {
 	public function authenticate($username, $password);
 	public function register($username, $password);
+	public function checkUsername($username);
 }

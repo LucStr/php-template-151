@@ -2,45 +2,35 @@
 
 namespace LucStr\Controller;
 
-use LucStr\SimpleTemplateEngine;
-use LucStr\Service\User\UserService;
-
-class LoginController 
+class LoginController extends BaseController
 {
-  /**
-   * @var LucStr\SimpleTemplateEngine Template engines to render output
-   */
-  private $template;
-  private $userService;
-  /**
-   * @param LucStr\SimpleTemplateEngine
-   */
-  public function __construct(SimpleTemplateEngine $template, UserService $userService)
+  public function Index()
   {
-     $this->template = $template;
-     $this->userService = $userService;
-  }
-
-  public function showLogin()
-  {
-  	echo $this->template->render("login.html.php");
+  	return $this->view();
   }
   
-  public function login(array $data)
+  /**
+   * @HTTP POST
+   */
+  public function Authenticate($username, $password)
   {
-  	if(!array_key_exists("username", $data) OR !array_key_exists("password", $data)){
-  		$this->showLogin();
-  		return;
-  	}
-  	if($this->userService->authenticate($data["username"], $data["password"])){
-  		$_SESSION["username"] = $data["username"];
+  	$userService = $this->factory->getUserService();
+  	$stmt = $userService->authenticate($username, $password);
+  	if($stmt->rowCount() == 1){
+  		$stmt->execute();
+  		$_SESSION["userId"] = $stmt->fetch(\PDO::FETCH_ASSOC)["userId"];
+  		$_SESSION["username"] = $username;
+  		$this->redirectToAction("Index", "Index");
   	} else{
-  		echo $this->template->render("login.html.php", [
-  				"username" => $data["username"]  				
+  		$this->view("Login", "Index", [
+  				"username" => $username  				
   		]);
-  		echo "Login failed";
+  		echo "login failed!";
   	}
-
-  	return;
+  }
+  
+  public function Logout(){
+  	unset($_SESSION["username"]);
+  	$this->redirectToAction("Index", "Index");
   }
 }

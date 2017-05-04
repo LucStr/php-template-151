@@ -15,7 +15,7 @@ class Factory
 	}
 	function getTemplateEngine() 
 	{
-		return new SimpleTemplateEngine(__DIR__ . "/../templates/");
+		return new SimpleTemplateEngine(__DIR__ . "/Views/");
 	}
 	
 	function getIndexController()
@@ -38,14 +38,21 @@ class Factory
 		return new Service\Login\LoginPdoService($this->getPdo());
 	}
 	
+	function getVillageService()
+	{
+		return new Service\Village\VillagePdoService($this->getPdo());
+	}
+	
 	function getLoginController()
 	{
 		return new Controller\LoginController($this->getTemplateEngine(), $this->getUserService());
 	}
+	
 	function getUserService()
 	{
 		return new Service\User\UserPdoService($this->getPdo());
-	}	
+	}
+	
 	function getRegisterController(){
 		return new Controller\RegistrationController($this->getTemplateEngine(), $this->getUserService());	
 	}

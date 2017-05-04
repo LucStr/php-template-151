@@ -25,11 +25,13 @@ class SimpleTemplateEngine
    * Renders a *.html.php file inside the template path
    * @return string
    */
-  public function render($template, array $arguments = []) 
+  public function render($view, array $arguments = []) 
   {
-    extract($arguments);
-    ob_start();
-    require($this->templatePath.$template);
-    return ob_get_clean();
+  	var_dump($arguments);
+  	$arguments["view"] = $this->templatePath . $view;
+  	var_dump($arguments);
+  	die();
+    extract($arguments);    
+    require("../web/layout.php");
   }
 }

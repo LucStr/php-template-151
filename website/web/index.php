@@ -1,33 +1,41 @@
 <?php
 
+use LucStr\Factory;
+
 error_reporting(E_ALL);
 session_start();
 
 require_once("../vendor/autoload.php");
-$tmpl = new LucStr\SimpleTemplateEngine(__DIR__ . "/../templates/");
-$pdo = new \PDO(
-	"mysql:host=mariadb;dbname=app;charset=utf8",
-	"root",
-	"my-secret-pw",
-	[\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
-);
+$factory = Factory::crateFromInitFile(__DIR__ . "/../config.ini");
+
+
+$userService = $factory->getUserService();
+
 
 switch($_SERVER["REQUEST_URI"]) {
 	case "/":
-		(new LucStr\Controller\IndexController($tmpl))->homepage();
+		$factory->getIndexController()->homepage();
 		break;
 	case "/login":
-		$controller = (new LucStr\Controller\LoginController($tmpl, $pdo));
+		$controller = $factory->getLoginController();
 		if($_SERVER["REQUEST_METHOD"] === "GET"){
 			$controller->showLogin();
 		} else{
 			$controller->login($_POST);
 		}
 		break;
+	case "/register":
+		$controller = $factory->getRegisterController();
+		if($_SERVER["REQUEST_METHOD"] === "GET"){
+			$controller->showRegister();
+		} else{
+			$controller->register($_POST);
+		}
+		break;
 	default:
 		$matches = [];
 		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			(new LucStr\Controller\IndexController($tmpl))->greet($matches[1]);
+			$factory->getIndexController()->greet($matches[1]);
 			break;
 		}
 		echo "Not Found";

@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 session_start();
 
 require_once("../vendor/autoload.php");
+LucStr\MessageHandler::Initialize();
 $factory = Factory::crateFromInitFile(__DIR__ . "/../config.ini");
 
 $uri_parts = strtok($_SERVER["REQUEST_URI"],'?');

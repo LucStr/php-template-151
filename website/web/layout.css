@@ -1,0 +1,108 @@
+/* CSS Document */
+
+body {
+	margin:0;
+	padding:0;
+	font-family: arial;
+}
+
+
+#header {
+	background-color: #EBEBEB;
+	width:80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#middle {
+	width: 80%;
+	height: 700px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	text-align: center;
+ 	margin: auto;
+	margin-top: 15px;
+	position: relative;
+}
+
+.maincontent {
+	width:100%;
+}
+
+.formDiv {
+	width: 200px;
+	height: auto;
+	margin: auto;
+	margin-top: 30px;
+}
+
+#navigation {
+	padding: 10px;
+	border-bottom: 5px;
+	border-color: black;
+	border-bottom: solid 2px black;
+	margin-bottom: 5px;
+}
+
+.navLink:link, .navLink:visited {
+	text-decoration: none;
+	color: black;
+}
+
+.navLink:hover {
+	font-weight: bold;
+}
+
+#currentlyLoggedIn {
+	bottom: 0;
+	margin: 5px;
+	position: absolute;
+}
+
+.document {
+	text-decoration: none;
+	color: black;
+	padding-left: 5px;
+}
+
+.document:hover {
+	text-decoration: underline;
+}
+
+.button {
+	text-decoration: none;
+	color: black;
+}
+
+.button:hover	{
+	text-decoration: underline;
+}
+
+#logoutButton {
+	bottom: 0;
+	margin: 5px;
+	position: absolute;
+	text-decoration: none;
+	color: black;
+	right: 0;
+}
+
+#logoutButton:hover {
+	font-weight: bold;
+}
+
+.removeUser {
+	margin-left: 5px;
+	text-decoration: none;
+	color: black;
+}
+
+.removeUser:hover {
+	font-weight: bold;
+}
+
+#documentNameTextbox {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}

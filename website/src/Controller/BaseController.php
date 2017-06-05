@@ -3,16 +3,15 @@
 namespace LucStr\Controller;
 
 use LucStr\Factory;
+use LucStr\HtmlHelper;
 
 class BaseController
 {
 	protected $factory;
-	private $template;
 	
 	function __construct()
 	{
 		$this->factory = Factory::crateFromInitFile(__DIR__ . "/../../config.ini");
-		$this->template = $this->factory->getTemplateEngine();
 	}
 	
 	function executeAction($action){
@@ -28,6 +27,12 @@ class BaseController
 				case "POST":
 					$data = $_POST;
 					break;
+			}
+		}
+		if(preg_match_all('%^\s*\*\s*@CSRF\s+(?P<route>/?(?:[a-z0-9]+/?)+)\s*$%im', $comment, $result, PREG_PATTERN_ORDER)){
+			if($result[1][0] == "ON" && !$this->CheckCSRF($data)){
+				var_dump($_SESSION["CSRF"], $data["csrf"], $this->CheckCSRF($data));
+				throw new \Exception("CSRF nicht gültig");
 			}
 		}
 		$params = $reflector->getParameters();
@@ -87,6 +92,7 @@ class BaseController
 	function view3Arg($controller, $view, $viewModel = array()){
 		$view = __DIR__ . "/../Views/" . $controller . "/" . $view . ".php";
 		$viewModel["viewLocation"] = $view;
+		$viewModel["html"] = new HtmlHelper();
 		extract($viewModel);
 		require("../web/layout.php");
 	}
@@ -102,5 +108,35 @@ class BaseController
 				$this->index();				
 			}
 		}
+	}
+	function CreateCSRF(){
+		$_SESSION["CSRF"] = $this->gen_uuid();
+		return $_SESSION["CSRF"];
+	}
+	
+	function CheckCSRF($data){
+		return $data["csrf"] == $_SESSION["CSRF"];
+	}
+	
+	function gen_uuid() {
+		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+				// 32 bits for "time_low"
+				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+	
+				// 16 bits for "time_mid"
+				mt_rand( 0, 0xffff ),
+	
+				// 16 bits for "time_hi_and_version",
+				// four most significant bits holds version number 4
+				mt_rand( 0, 0x0fff ) | 0x4000,
+	
+				// 16 bits, 8 bits for "clk_seq_hi_res",
+				// 8 bits for "clk_seq_low",
+				// two most significant bits holds zero and one for variant DCE1.1
+				mt_rand( 0, 0x3fff ) | 0x8000,
+	
+				// 48 bits for "node"
+				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+				);
 	}
 }

@@ -25,38 +25,4 @@ $GLOBALS["actionname"] = $actionname;
 $controllerlocation = "LucStr\Controller\\" . $controllername . "Controller";
 $controller = new $controllerlocation($factory);
 
-
-
-
 $controller->executeAction($actionname);
-
-/*
-switch($_SERVER["REQUEST_URI"]) {
-	case "/":
-		$factory->getIndexController()->homepage();
-		break;
-	case "/login":
-		$controller = $factory->getLoginController();
-		if($_SERVER["REQUEST_METHOD"] === "GET"){
-			$controller->showLogin();
-		} else{
-			$controller->login($_POST);
-		}
-		break;
-	case "/register":
-		$controller = $factory->getRegisterController();
-		if($_SERVER["REQUEST_METHOD"] === "GET"){
-			$controller->showRegister();
-		} else{
-			$controller->register($_POST);
-		}
-		break;
-	default:
-		$matches = [];
-		if(preg_match("|^/hello/(.+)$|", $_SERVER["REQUEST_URI"], $matches)) {
-			$factory->getIndexController()->greet($matches[1]);
-			break;
-		}
-		echo "Not Found";
-}*/
-

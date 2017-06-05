@@ -2,35 +2,45 @@
 
 namespace LucStr\Controller;
 
+use LucStr\MessageHandler;
+
 class LoginController extends BaseController
 {
   public function Index()
   {
+  	$this->CreateCSRF();
   	return $this->view();
   }
   
   /**
    * @HTTP POST
+   * @CSRF ON
    */
   public function Authenticate($username, $password)
   {
   	$userService = $this->factory->getUserService();
-  	$stmt = $userService->authenticate($username, $password);
-  	if($stmt->rowCount() == 1){
-  		$stmt->execute();
-  		$_SESSION["userId"] = $stmt->fetch(\PDO::FETCH_ASSOC)["userId"];
-  		$_SESSION["username"] = $username;
-  		$this->redirectToAction("Index", "Index");
-  	} else{
-  		$this->view("Login", "Index", [
+  	$user = $userService->getUserByUsername($username);
+  	if(!$user["activated"]){  		
+  		MessageHandler::danger("Bitte bestätige deine Mail");
+  		return $this->view("Login", "Index", [
   				"username" => $username  				
   		]);
-  		echo "login failed!";
+  	}
+  	if($userService->checkCredentials($user, $password)){
+  		session_regenerate_id();
+  		$_SESSION["userId"] = $user["userId"];
+  		$_SESSION["username"] = $username;
+  		return $this->redirectToAction("Index", "Index");
+  	} else{
+  		MessageHandler::danger("Login fehlgeschlagen!");
+  		return $this->view("Login", "Index", [
+  				"username" => $username  				
+  		]);
   	}
   }
   
   public function Logout(){
-  	unset($_SESSION["username"]);
+  	session_destroy();
   	$this->redirectToAction("Index", "Index");
   }
 }

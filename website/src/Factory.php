@@ -13,10 +13,6 @@ class Factory
 	public function __construct(array $config){
 		$this->config = $config;
 	}
-	function getTemplateEngine() 
-	{
-		return new SimpleTemplateEngine(__DIR__ . "/Views/");
-	}
 	
 	function getIndexController()
 	{
@@ -43,17 +39,17 @@ class Factory
 		return new Service\Village\VillagePdoService($this->getPdo());
 	}
 	
-	function getLoginController()
-	{
-		return new Controller\LoginController($this->getTemplateEngine(), $this->getUserService());
-	}
-	
 	function getUserService()
 	{
 		return new Service\User\UserPdoService($this->getPdo());
 	}
 	
-	function getRegisterController(){
-		return new Controller\RegistrationController($this->getTemplateEngine(), $this->getUserService());	
+	public function getMailer()
+	{
+		return \Swift_Mailer::newInstance(
+				\Swift_SmtpTransport::newInstance("smtp.gmail.com", 465, "ssl")
+				->setUsername("gibz.module.151@gmail.com")
+				->setPassword("Pe$6A+aprunu")
+				);
 	}
 }

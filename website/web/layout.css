@@ -1,108 +1,72 @@
 /* CSS Document */
 
 body {
-	margin:0;
-	padding:0;
-	font-family: arial;
+	background-image: url("/Graphics/background.jpg");
+	background-size:100%;
 }
 
-
-#header {
-	background-color: #EBEBEB;
-	width:80%;
-	margin-left: auto;
-	margin-right: auto;
+h1, h2 {
+	color: #a36d09;
 }
 
-#middle {
-	width: 80%;
-	height: 700px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	text-align: center;
- 	margin: auto;
-	margin-top: 15px;
-	position: relative;
-}
-
-.maincontent {
-	width:100%;
-}
-
-.formDiv {
-	width: 200px;
-	height: auto;
-	margin: auto;
-	margin-top: 30px;
-}
-
-#navigation {
+td{
 	padding: 10px;
-	border-bottom: 5px;
-	border-color: black;
-	border-bottom: solid 2px black;
-	margin-bottom: 5px;
+	border: 1px solid #a36d09;	
 }
 
-.navLink:link, .navLink:visited {
+th{
+	padding: 10px;
+	background: #a36d09;
+	color: #eddb90;
+	border: 1px solid #a36d09;	
+}
+
+a{
 	text-decoration: none;
-	color: black;
+	color: #a36d09;
 }
 
-.navLink:hover {
-	font-weight: bold;
+a:hover{
+	text-decoration: none;
+	color: #ccbc76;
 }
 
-#currentlyLoggedIn {
-	bottom: 0;
+.alert{
+	margin-bottom: 0px !important;
+}
+
+
+#middle{
+	background-color:#ccbc76;
+	width:1000px; 
+	margin:0 auto;
+	margin-top: -0.5em;
+}
+
+#middle > div{
+	padding: 10px;
+}
+
+#maincontent, #navigation, #currentlyLoggedIn{
+	background-color:#eddb90;
 	margin: 5px;
-	position: absolute;
+	border: 1px solid #a36d09;
 }
 
-.document {
-	text-decoration: none;
-	color: black;
-	padding-left: 5px;
+#navigation > a{
+    background-color: #eddb90;
+    color: #a36d09;
+    padding: 7px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.document:hover {
-	text-decoration: underline;
+#navigation > a:hover{
+    background-color: #a36d09;
+    color: #eddb90;
 }
 
-.button {
-	text-decoration: none;
-	color: black;
-}
-
-.button:hover	{
-	text-decoration: underline;
-}
-
-#logoutButton {
-	bottom: 0;
-	margin: 5px;
-	position: absolute;
-	text-decoration: none;
-	color: black;
-	right: 0;
-}
-
-#logoutButton:hover {
-	font-weight: bold;
-}
-
-.removeUser {
-	margin-left: 5px;
-	text-decoration: none;
-	color: black;
-}
-
-.removeUser:hover {
-	font-weight: bold;
-}
-
-#documentNameTextbox {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 30px;
-	margin-bottom: 30px;
+#loginform > label{
+	width: 100px;
 }

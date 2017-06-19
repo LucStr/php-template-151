@@ -49,9 +49,9 @@ class BaseController
 	}
 
 	function redirectToAction($controller, $action, $args = array()){
-		$this->host= $_SERVER['HTTP_HOST'];
-		$this->uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-		$locationString = "Location: http://$this->host$this->uri/$controller/$action?";
+		$host = $_SERVER['HTTP_HOST'];
+		$uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+		$locationString = "Location: http://$host$uri/$controller/$action?";
 		foreach ($args as $key => $value) {
 			$locationString = $locationString . '&' . $key . '=' . $value;
 		}
@@ -110,7 +110,7 @@ class BaseController
 		}
 	}
 	function CreateCSRF(){
-		$_SESSION["CSRF"] = $this->gen_uuid();
+		$_SESSION["CSRF"] = $this->generateRandomString();
 		return $_SESSION["CSRF"];
 	}
 	
@@ -118,25 +118,13 @@ class BaseController
 		return $data["csrf"] == $_SESSION["CSRF"];
 	}
 	
-	function gen_uuid() {
-		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-				// 32 bits for "time_low"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-	
-				// 16 bits for "time_mid"
-				mt_rand( 0, 0xffff ),
-	
-				// 16 bits for "time_hi_and_version",
-				// four most significant bits holds version number 4
-				mt_rand( 0, 0x0fff ) | 0x4000,
-	
-				// 16 bits, 8 bits for "clk_seq_hi_res",
-				// 8 bits for "clk_seq_low",
-				// two most significant bits holds zero and one for variant DCE1.1
-				mt_rand( 0, 0x3fff ) | 0x8000,
-	
-				// 48 bits for "node"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-				);
+	function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
 	}
 }

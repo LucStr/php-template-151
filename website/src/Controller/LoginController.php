@@ -26,7 +26,7 @@ class LoginController extends BaseController
   				"username" => $username  				
   		]);
   	}
-  	if($userService->checkCredentials($user, $password)){
+  	if(password_verify($password, $user["password"])){
   		session_regenerate_id();
   		$_SESSION["userId"] = $user["userId"];
   		$_SESSION["username"] = $username;

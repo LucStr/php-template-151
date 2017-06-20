@@ -50,16 +50,17 @@ class RegistrationController extends BaseController
   	$user = $userService->getUserById($userId);
   	$message =  \Swift_Message::newInstance()  	 
   	->setSubject('Account Bestätigung')
-   	->setFrom(array('tim.odermatt@gmail.com' => 'Tim Odermatt'))
-  	->setTo(array($user["mail"] => $user["username"]))
+   	->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
+  	->setTo(array($user["email"] => $user["username"]))
   	->setBody('Hallo ' . $user["username"] . ',</br> Bitte bestätige deine Email <a href="https://' 
-  			. $_SERVER['SERVER_NAME'] . "/Registration/Activate?userId=" . $userId . "&confirmation=" .
-	$user["confirmation"] . '">Hier</a>', 'text/html')
+  			. $_SERVER['SERVER_NAME'] . "/Registration/Activate?userId=" . $userId . "&confirmationUUID=" .
+	$user["confirmationUUID"] . '">Hier</a>', 'text/html')
   	->setContentType("text/html");  	 
   	$this->factory->getMailer()->send($message);
   	return $this->view("Login", "Index", [
   			"username" => $username
   	]);
+  	
   }
   
   public function CheckUsername($username){
@@ -67,12 +68,12 @@ class RegistrationController extends BaseController
   	echo $userService->checkUsername($username);
   }
   
-  public function Activate($userId, $confirmation){
+  public function Activate($userId, $confirmationUUID){
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserById($userId);
   	if($user["activated"]){
   		MessageHandler::info("Dieser Benutzer wurde bereits bestätigt.");
-  	} else if($user["confirmation"] == $confirmation){
+  	} else if($user["confirmationUUID"] == $confirmationUUID){
   		$userService->activate($userId);
   		MessageHandler::success("Email wurde bestätigt!");
   	} else{
@@ -91,13 +92,13 @@ class RegistrationController extends BaseController
    */
   public function RequestPasswordResetEmail($username){
   	$userService = $this->factory->getUserService();
-  	$userService->renewConfirmationByUsername($username);
+  	$userService->renewConfirmationUUIDByUsername($username);
   	$user = $userService->getUserByUsername($username);
   	if($user["username"] == $username){
   		$message =  \Swift_Message::newInstance()
   		->setSubject('Passwort zurücksetzen')
-  		->setFrom(array('tim.odermatt@gmail.ch' => 'Tim Odermatt'))
-  		->setTo(array($user["mail"] => $user["username"]))
+  		->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
+  		->setTo(array($user["email"] => $user["username"]))
   		->setBody('Hallo ' . $user["username"] . ',</br> Du Kannst dein Passwor <a href="https://'
   				. $_SERVER['SERVER_NAME'] . "/Registration/ResetPasswordForm?userId=" . $user["userId"] . "&confirmationUUID=" .
   				$user["confirmationUUID"] . '">Hier</a> Zurücksetzen', 'text/html')
@@ -107,13 +108,13 @@ class RegistrationController extends BaseController
   	return $this->redirectToAction("Index", "Index");
   }
   
-  public function ResetPasswordForm($userId, $confirmation){
+  public function ResetPasswordForm($userId, $confirmationUUID){
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserById($userId);
   	$this->CreateCSRF();
   	if($user["userId"] == $userId){
   		return $this->view([
-  				"confirmation" => $confirmation,
+  				"confirmationUUID" => $confirmationUUID,
   				"userId" => $userId,
   		]);
   	} else{

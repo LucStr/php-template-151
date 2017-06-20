@@ -22,7 +22,7 @@ class Factory
 	function getPdo()
 	{
 		return new \PDO(
-			"mysql:host=mariadb;dbname=blog;charset=utf8",
+			"mysql:host=mariadb;dbname=browsergame;charset=utf8",
 			$this->config['user'],
 			"my-secret-pw",
 			[\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
@@ -32,26 +32,16 @@ class Factory
 	function getLoginService()
 	{
 		return new Service\Login\LoginPdoService($this->getPdo());
-	}	
+	}
+	
+	function getVillageService()
+	{
+		return new Service\Village\VillagePdoService($this->getPdo());
+	}
 	
 	function getUserService()
 	{
 		return new Service\User\UserPdoService($this->getPdo());
-	}
-	
-	function getPostService()
-	{
-		return new Service\Post\PostPdoService($this->getPdo());
-	}
-	
-	function getCommentService()
-	{
-		return new Service\Comment\CommentPdoService($this->getPdo());
-	}
-	
-	function getLikeService()
-	{
-		return new Service\Like\LikePdoService($this->getPdo());
 	}
 	
 	public function getMailer()

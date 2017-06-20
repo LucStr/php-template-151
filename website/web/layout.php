@@ -13,12 +13,14 @@ include "layout.css";
 ?>
 </style>
 <!-- CSS Ende-->
-<title>Tim Blog</title>
+<title><?php echo $GLOBALS['title']; ?></title>
 </head>
 <body>
     <div id="middle">
 	    <div id="navigation">
 			<a href="/">Startseite</a>
+			<a href="/Village">Übersicht</a>
+			<a href="/Ranking">Rangliste</a>
 		</div>
 		<?php 
 			LucStr\MessageHandler::renderMessages();
@@ -27,12 +29,11 @@ include "layout.css";
         	<?php include $view ?>
         </div>
         <?php if(isset($_SESSION['username'])) { ?>
+          <div id="currentlyLoggedIn">
+            Guten Tag, Sie sind als <b><?=$_SESSION['username']?></b> eingeloggt.<br>
             <a id="logoutButton" href="/Login/Logout">AUSLOGGEN</a>
-        <?php } else{
-        	?>
-        	<a href="/Login/">Einloggen</a>
-        	<?php 
-        }?>
+          </div>
+        <?php } ?>
     </div>
 </body>
 </html>

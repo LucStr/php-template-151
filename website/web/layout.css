@@ -1,0 +1,72 @@
+/* CSS Document */
+
+body {
+	background-image: url("/Graphics/background.jpg");
+	background-size:100%;
+}
+
+h1, h2 {
+	color: #a36d09;
+}
+
+td{
+	padding: 10px;
+	border: 1px solid #a36d09;	
+}
+
+th{
+	padding: 10px;
+	background: #a36d09;
+	color: #eddb90;
+	border: 1px solid #a36d09;	
+}
+
+a{
+	text-decoration: none;
+	color: #a36d09;
+}
+
+a:hover{
+	text-decoration: none;
+	color: #ccbc76;
+}
+
+.alert{
+	margin-bottom: 0px !important;
+}
+
+
+#middle{
+	background-color:#ccbc76;
+	width:1000px; 
+	margin:0 auto;
+	margin-top: -0.5em;
+}
+
+#middle > div{
+	padding: 10px;
+}
+
+#maincontent, #navigation, #currentlyLoggedIn{
+	background-color:#eddb90;
+	margin: 5px;
+	border: 1px solid #a36d09;
+}
+
+#navigation > a{
+    background-color: #eddb90;
+    color: #a36d09;
+    padding: 7px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#navigation > a:hover{
+    background-color: #a36d09;
+    color: #eddb90;
+}
+
+#loginform > label{
+	width: 100px;
+}

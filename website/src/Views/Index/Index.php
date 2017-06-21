@@ -3,7 +3,7 @@
 <?php
 if(isset($_SESSION["username"])){
 	?>
-		Hallo <?= $_SESSION["username"] ?>,<br>
+		Hallo <?= htmlentities($_SESSION["username"]) ?>,<br>
 		Du bist eingeloggt, möchtest du die Welt <a href="/Village">hier</a> betreten?
 		<?php 
 	} else{

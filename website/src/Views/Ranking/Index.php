@@ -11,7 +11,7 @@
 	?>
 		<tr>
 			<td><?=$key + 1?></td>
-			<td><?=$user["username"]?></td>
+			<td><?=htmlentities($user["username"])?></td>
 			<td><?=$user["points"]?></td>
 		</tr>
 	<?php 

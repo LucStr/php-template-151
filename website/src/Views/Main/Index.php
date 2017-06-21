@@ -14,7 +14,7 @@
 		foreach ($village["queue"] as $build){
 			?>
 			<tr>
-				<td><?= $village["buildings"][$build["building"]]["name"] . " Stufe " . $build["level"]?></td>
+				<td><?= htmlentities($village["buildings"][$build["building"]]["name"]) . " Stufe " . $build["level"]?></td>
 				<td><?= $build["endTime"] ?></td>
 				<td class="timerCountDown"><?= strtotime($build["endTime"]) - time() ?></td>
 			</tr>

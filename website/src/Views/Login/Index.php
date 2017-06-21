@@ -1,7 +1,7 @@
 <h1>Login</h1>
 <form id="loginform" action="/Login/Authenticate" method="POST">
 	<label>Username:</label>
-	<input type="text" name="username" value="<?= (isset($username)) ? $username : "" ?>"/><br>
+	<input type="text" name="username" value="<?= (isset($username)) ? htmlentities($username) : "" ?>"/><br>
 	<label>Passoword:</label>
 	<input type="password" name="password" /><br>	
 	<?= $html->renderCSRF() ?>

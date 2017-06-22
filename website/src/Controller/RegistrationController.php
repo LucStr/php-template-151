@@ -51,10 +51,10 @@ class RegistrationController extends BaseController
   	$message =  \Swift_Message::newInstance()  	 
   	->setSubject('Account Bestätigung')
    	->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
-  	->setTo(array($user["email"] => htmlentites($user["username"])))
-  	->setBody('Hallo ' . htmlentites($user["username"]) . ',</br> Bitte bestätige deine Email <a href="https://' 
+  	->setTo(array($user->getEmail() => $user->getUsername()))
+  	->setBody('Hallo ' . $user->getUsername() . ',</br> Bitte bestätige deine Email <a href="https://' 
   			. $_SERVER['SERVER_NAME'] . "/Registration/Activate?userId=" . $userId . "&confirmationUUID=" .
-	$user["confirmationUUID"] . '">Hier</a>', 'text/html')
+	$user->getConfirmationUUID() . '">Hier</a>', 'text/html')
   	->setContentType("text/html");  	 
   	$this->factory->getMailer()->send($message);
   	return $this->view("Login", "Index", [
@@ -71,9 +71,9 @@ class RegistrationController extends BaseController
   public function Activate($userId, $confirmationUUID){
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserById($userId);
-  	if($user["activated"]){
+  	if($user->getActivated()){
   		MessageHandler::info("Dieser Benutzer wurde bereits bestätigt.");
-  	} else if($user["confirmationUUID"] == $confirmationUUID){
+  	} else if($user->getConfirmationUUID() == $confirmationUUID){
   		$userService->activate($userId);
   		MessageHandler::success("Email wurde bestätigt!");
   	} else{
@@ -94,14 +94,14 @@ class RegistrationController extends BaseController
   	$userService = $this->factory->getUserService();
   	$userService->renewConfirmationUUIDByUsername($username);
   	$user = $userService->getUserByUsername($username);
-  	if($user["username"] == $username){
+  	if($user->getUsername() == $username){
   		$message =  \Swift_Message::newInstance()
   		->setSubject('Passwort zurücksetzen')
   		->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
-  		->setTo(array($user["email"] => htmlentites($user["username"])))
-  		->setBody('Hallo ' . htmlentites($user["username"]) . ',</br> Du Kannst dein Passwor <a href="https://'
-  				. $_SERVER['SERVER_NAME'] . "/Registration/ResetPasswordForm?userId=" . $user["userId"] . "&confirmationUUID=" .
-  				$user["confirmationUUID"] . '">Hier</a> Zurücksetzen', 'text/html')
+  		->setTo(array($user->getEmail() => $user->getUsername()))
+  		->setBody('Hallo ' . $user->getUsername() . ',</br> Du Kannst dein Passwor <a href="https://'
+  				. $_SERVER['SERVER_NAME'] . "/Registration/ResetPasswordForm?userId=" . $user->getUserId() . "&confirmationUUID=" .
+  				$user->getConfirmationUUID() . '">Hier</a> Zurücksetzen', 'text/html')
   		->setContentType("text/html");
   		$this->factory->getMailer()->send($message);
   	}
@@ -112,7 +112,7 @@ class RegistrationController extends BaseController
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserById($userId);
   	$this->CreateCSRF();
-  	if($user["userId"] == $userId){
+  	if($user->getUserId() == $userId){
   		return $this->view([
   				"confirmationUUID" => $confirmationUUID,
   				"userId" => $userId,

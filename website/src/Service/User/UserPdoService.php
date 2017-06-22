@@ -2,6 +2,7 @@
 
 namespace LucStr\Service\User;
 use LucStr\Service\User\UserService;
+use LucStr\Business\User;
 
 class UserPdoService implements UserService
 {
@@ -13,7 +14,7 @@ class UserPdoService implements UserService
 	}
 	
 	public function checkCredentials($user, $password){
-		return password_verify($password, $user["password"]);
+		return password_verify($password, $user->getPassword());
 	}
 	
 	public function register($username, $email, $password){
@@ -30,7 +31,7 @@ class UserPdoService implements UserService
 		$stmt = $this->pdo->prepare("SELECT * FROM user WHERE username=?");
 		$stmt->bindValue(1, $username);
 		$stmt->execute();
-		return $stmt->rowCount();
+		return $stmt->rowCount() > 0;
 	}
 	
 	public function updatePoints($userId){
@@ -50,7 +51,7 @@ class UserPdoService implements UserService
 		$stmt->execute();
 		$users = array();
 		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)){
-			$users[] = $row;
+			$users[] = new User($row);
 		}
 		return $users;
 	}
@@ -59,14 +60,14 @@ class UserPdoService implements UserService
 		$stmt = $this->pdo->prepare("SELECT userId, username, password, email, points, activated, confirmationUUID FROM user WHERE userId=?");
 		$stmt->bindValue(1, $userId);
 		$stmt->execute();
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
+		return new User($stmt->fetch(\PDO::FETCH_ASSOC));
 	}
 	
 	public function getUserByUsername($username){
 		$stmt = $this->pdo->prepare("SELECT userId, username, password, email, points, activated, confirmationUUID FROM user WHERE username=?");
 		$stmt->bindValue(1, $username);
 		$stmt->execute();
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
+		return new User($stmt->fetch(\PDO::FETCH_ASSOC));
 	}
 	
 	public function activate($userId){

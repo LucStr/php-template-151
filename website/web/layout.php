@@ -13,7 +13,7 @@ include "layout.css";
 ?>
 </style>
 <!-- CSS Ende-->
-<title><?php echo $GLOBALS['title']; ?></title>
+<title>Browsergame</title>
 </head>
 <body>
     <div id="middle">
@@ -30,7 +30,7 @@ include "layout.css";
         </div>
         <?php if(isset($_SESSION['username'])) { ?>
           <div id="currentlyLoggedIn">
-            Guten Tag, Sie sind als <b><?=$_SESSION['username']?></b> eingeloggt.<br>
+            Guten Tag, Sie sind als <b><?=htmlentities($_SESSION['username'])?></b> eingeloggt.<br>
             <a id="logoutButton" href="/Login/Logout">AUSLOGGEN</a>
           </div>
         <?php } ?>

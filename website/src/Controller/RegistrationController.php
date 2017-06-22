@@ -51,8 +51,8 @@ class RegistrationController extends BaseController
   	$message =  \Swift_Message::newInstance()  	 
   	->setSubject('Account Bestätigung')
    	->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
-  	->setTo(array($user["email"] => $user["username"]))
-  	->setBody('Hallo ' . $user["username"] . ',</br> Bitte bestätige deine Email <a href="https://' 
+  	->setTo(array($user["email"] => htmlentites($user["username"])))
+  	->setBody('Hallo ' . htmlentites($user["username"]) . ',</br> Bitte bestätige deine Email <a href="https://' 
   			. $_SERVER['SERVER_NAME'] . "/Registration/Activate?userId=" . $userId . "&confirmationUUID=" .
 	$user["confirmationUUID"] . '">Hier</a>', 'text/html')
   	->setContentType("text/html");  	 
@@ -98,8 +98,8 @@ class RegistrationController extends BaseController
   		$message =  \Swift_Message::newInstance()
   		->setSubject('Passwort zurücksetzen')
   		->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
-  		->setTo(array($user["email"] => $user["username"]))
-  		->setBody('Hallo ' . $user["username"] . ',</br> Du Kannst dein Passwor <a href="https://'
+  		->setTo(array($user["email"] => htmlentites($user["username"])))
+  		->setBody('Hallo ' . htmlentites($user["username"]) . ',</br> Du Kannst dein Passwor <a href="https://'
   				. $_SERVER['SERVER_NAME'] . "/Registration/ResetPasswordForm?userId=" . $user["userId"] . "&confirmationUUID=" .
   				$user["confirmationUUID"] . '">Hier</a> Zurücksetzen', 'text/html')
   		->setContentType("text/html");

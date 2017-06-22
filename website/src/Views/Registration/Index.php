@@ -5,10 +5,10 @@
 	<input id="email" type="text" name="email" value="<?= (isset($email)) ? $email : "" ?>"/>
 	<label>Username:</label>
 	<input id="username" type="text" name="username" value="<?= (isset($username)) ? htmlentities($username) : "" ?>"/>
-	<p style="display: none;color: red;" id="usernametaken">Dieser Benutzername wird bereits benutzt</p>
-	<label>Passoword:</label>
+	<p style="display: none;color: red;" id="usernametaken">This username is already taken</p>
+	<label>Password:</label>
 	<input type="password" name="password" />
-	<input value="Registrieren" type="submit" />
+	<input value="Register" type="submit" />
 </form>
 
 <script>

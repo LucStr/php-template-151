@@ -18,9 +18,9 @@ include "layout.css";
 <body>
     <div id="middle">
 	    <div id="navigation">
-			<a href="/">Startseite</a>
-			<a href="/Village">Übersicht</a>
-			<a href="/Ranking">Rangliste</a>
+			<a href="/">Home</a>
+			<a href="/Village">Overview</a>
+			<a href="/Ranking">Ranking</a>
 		</div>
 		<?php 
 			LucStr\MessageHandler::renderMessages();
@@ -30,8 +30,8 @@ include "layout.css";
         </div>
         <?php if(isset($_SESSION['username'])) { ?>
           <div id="currentlyLoggedIn">
-            Guten Tag, Sie sind als <b><?=htmlentities($_SESSION['username'])?></b> eingeloggt.<br>
-            <a id="logoutButton" href="/Login/Logout">AUSLOGGEN</a>
+            Hello, you are logged in as <b><?=htmlentities($_SESSION['username'])?></b> <br>
+            <a id="logoutButton" href="/Login/Logout">LOGOUT</a>
           </div>
         <?php } ?>
     </div>

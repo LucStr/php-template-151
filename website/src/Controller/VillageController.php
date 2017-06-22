@@ -11,7 +11,7 @@ class VillageController extends BaseController
   public function Index()
   {
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
 	$villageService = $this->factory->getVillageService();
@@ -21,14 +21,14 @@ class VillageController extends BaseController
   
   public function Overview($villageId){
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
   	$villageService->updateVillageById($villageId);
   	$village = $villageService->getDetailedVillageById($villageId);
 	if($village["userId"] != $_SESSION["userId"]){
-		MessageHandler::danger("Du hast keine Berechtigung für dieses Dorf!");
+		MessageHandler::danger("You don't have the permission to enter this village");
 		return $this->redirectToAction("Index", "Index");
 	}
 	return $this->view(["village" => $village]);
@@ -36,14 +36,14 @@ class VillageController extends BaseController
   
   public function Main($villageId){
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
   	$villageService->updateVillageById($villageId);
   	$village = $villageService->getDetailedVillageById($villageId);
   	if($village["userId"] != $_SESSION["userId"]){
-  		MessageHandler::danger("Du hast keine Berechtigung für dieses Dorf!");
+  		MessageHandler::danger("You don't have the permission to enter this village");
   		return $this->redirectToAction("Index", "Index");
   	}
   	return $this->view(["village" => $village]);
@@ -51,7 +51,7 @@ class VillageController extends BaseController
   
   public function Build($villageId, $building){
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
@@ -63,7 +63,7 @@ class VillageController extends BaseController
   public function Create(){
   	$userId = $_SESSION["userId"];
   	if(!isset($userId)){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
@@ -71,7 +71,7 @@ class VillageController extends BaseController
   	if(count($villages) == 0){
   		$villageService->createVillage($userId);
   	} else{
-  		MessageHandler::info("Du hast bereits ein Dorf!");
+  		MessageHandler::info("You already have a village! don't cheat me :D");
   	}
   	return $this->redirectToAction("Village", "Index");
   }
@@ -82,13 +82,13 @@ class VillageController extends BaseController
    */
   public function ChangeVillageName($villageId, $villagename){
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please log in first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
   	$village = $villageService->getDetailedVillageById($villageId);
   	if($village["userId"] != $_SESSION["userId"]){
-  		MessageHandler::danger("Du hast keine Berechtigung für dieses Dorf!");
+  		MessageHandler::danger("You don't have the permission to enter this village");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService->updateName($villageId, $villagename);

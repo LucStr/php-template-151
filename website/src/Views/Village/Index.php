@@ -1,4 +1,4 @@
-Deine Dörfer:
+Your Villages:
 <?php 
 if(count($villages) > 0){
 	foreach ($villages as $village){
@@ -11,7 +11,7 @@ if(count($villages) > 0){
 } else{
 	?>
 	<div>
-		<a href="/Village/Create">Dorf erzeugen</a>	
+		<a href="/Village/Create">Create Village</a>	
 	</div>
 	<?php
 }

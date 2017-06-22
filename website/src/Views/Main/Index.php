@@ -1,20 +1,20 @@
-<h1>Hauptgebäude</h1>
-<p>Im Hauptgebäude können alle Gebäude ausgebaut werden.</p>
+<h1>Mainbuilding</h1>
+<p>In the Mainbuilding you can upgrade your buildings</p>
 <?php 
 	if(count($village["queue"]) > 0){
 ?>
-<h2>Warteschlange</h2>
+<h2>Queue</h2>
 <table id="queue">
 	<tr>
-		<th>Gebäude</th>
-		<th>Ende</th>
-		<th>Zeit</th>	
+		<th>Building</th>
+		<th>End</th>
+		<th>Time</th>	
 	</tr>
 	<?php 
 		foreach ($village["queue"] as $build){
 			?>
 			<tr>
-				<td><?= htmlentities($village["buildings"][$build["building"]]["name"]) . " Stufe " . $build["level"]?></td>
+				<td><?= htmlentities($village["buildings"][$build["building"]]["name"]) . " Level " . $build["level"]?></td>
 				<td><?= $build["endTime"] ?></td>
 				<td class="timerCountDown"><?= strtotime($build["endTime"]) - time() ?></td>
 			</tr>
@@ -23,15 +23,15 @@
 	}
 ?>
 </table>
-<h2>Gebäude</h2>
+<h2>Buildings</h2>
 <table>
 	<tr>
-		<th>Gebäude</th>
-		<th>Holz</th>
-		<th>Stein</th>
+		<th>Building</th>
+		<th>Wood</th>
+		<th>Stone</th>
 		<th>Gold</th>
-		<th>Zeit</th>	
-		<th>Bauen</th>	
+		<th>Time</th>	
+		<th>Build</th>	
 	</tr>
 	<?php 
 	foreach ($village["buildings"] as $key => $building){
@@ -42,13 +42,13 @@
 		<td><?= $building["stonecost"]?></td>
 		<td><?= $building["goldcost"]?></td>		
 		<td><?= $building["time"]?></td>
-		<td><a href="/Main/Build?villageId=<?= $village["villageId"]?>&building=<?= $key?>">Stufe <?= $building["newlvl"]?></a></td>
+		<td><a href="/Main/Build?villageId=<?= $village["villageId"]?>&building=<?= $key?>">Level <?= $building["newlvl"]?></a></td>
 	</tr>
 	<?php 
 	}
 	?>	
 </table>
-<a href="/Village/Overview?villageId=<?= $village["villageId"]?>">Zurück zur Übersicht</a>
+<a href="/Village/Overview?villageId=<?= $village["villageId"]?>">Back to the overview</a>
 <script>
 	setInterval(function(){		
 		$(".timerCountDown").each(function(i, u){

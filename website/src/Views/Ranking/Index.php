@@ -1,10 +1,10 @@
-<h1>Rangliste</h1>
+<h1>Ranking</h1>
 
 <table>
 	<tr>
-		<th>Rang</th>
+		<th>Rank</th>
 		<th>Name</th>
-		<th>Punkte</th>
+		<th>Points</th>
 	</tr>
 	<?php 
 	foreach ($users as $key => $user){

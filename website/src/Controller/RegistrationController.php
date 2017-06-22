@@ -20,20 +20,20 @@ class RegistrationController extends BaseController
   public function Register($username, $email, $password)
   {  	
   	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-  		MessageHandler::danger("Email nicht gueltig!");
+  		MessageHandler::danger("Email not valid!");
   		return $this->view("Registration", "Index", [
   				"username" => $username
   		]);
   	}
   	if(!$this->checkPassword($password)){
-  		MessageHandler::danger("Passwort zwischen 8 und 20 Zeichen, 1 Zahl und mind. 1 Buchstabe klein und gross");
+  		MessageHandler::danger("Password must be between 8 and 20 characters, 1 number and 1 character small and big");
   		return $this->view("Registration", "Index", [
   				"username" => $username,
   				"email" => $email
   		]);
   	}
   	if($this->CheckUsername($password)){
-  		MessageHandler::danger("Benutzername wird bereits benutzt");
+  		MessageHandler::danger("Username already in use");
   		return $this->view("Registration", "Index", [
   				"email" => $email
   		]);
@@ -41,7 +41,7 @@ class RegistrationController extends BaseController
   	$userService = $this->factory->getUserService();
   	$userId = $userService->register($username, $email, $password);
   	if($userId == 0){
-  		MessageHandler::danger("Unbekannter Fehler aufgetreten, bitte später nochmals versuchen.");
+  		MessageHandler::danger("Unrecognized Error occured. Please try again later");
   		return $this->view("Registration", "Index", [
   				"username" => $username,
   				"email" => $email
@@ -49,12 +49,12 @@ class RegistrationController extends BaseController
   	}
   	$user = $userService->getUserById($userId);
   	$message =  \Swift_Message::newInstance()  	 
-  	->setSubject('Account Bestätigung')
+  	->setSubject('Confirm Mail')
    	->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
   	->setTo(array($user->getEmail() => $user->getUsername()))
-  	->setBody('Hallo ' . $user->getUsername() . ',</br> Bitte bestätige deine Email <a href="https://' 
+  	->setBody('Hello ' . $user->getUsername() . ',</br> Please confirm your Mailaddres <a href="https://' 
   			. $_SERVER['SERVER_NAME'] . "/Registration/Activate?userId=" . $userId . "&confirmationUUID=" .
-	$user->getConfirmationUUID() . '">Hier</a>', 'text/html')
+	$user->getConfirmationUUID() . '">Here</a>', 'text/html')
   	->setContentType("text/html");  	 
   	$this->factory->getMailer()->send($message);
   	return $this->view("Login", "Index", [
@@ -72,12 +72,12 @@ class RegistrationController extends BaseController
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserById($userId);
   	if($user->getActivated()){
-  		MessageHandler::info("Dieser Benutzer wurde bereits bestätigt.");
+  		MessageHandler::info("This user has already been activated.");
   	} else if($user->getConfirmationUUID() == $confirmationUUID){
   		$userService->activate($userId);
-  		MessageHandler::success("Email wurde bestätigt!");
+  		MessageHandler::success("Email has been confirmed!");
   	} else{
-  		MessageHandler::danger("ungültiger Link!");
+  		MessageHandler::danger("invalid link!");
   	}
   	return $this->redirectToAction("Index", "Index");
   }
@@ -96,12 +96,12 @@ class RegistrationController extends BaseController
   	$user = $userService->getUserByUsername($username);
   	if($user->getUsername() == $username){
   		$message =  \Swift_Message::newInstance()
-  		->setSubject('Passwort zurücksetzen')
+  		->setSubject('Reset Password')
   		->setFrom(array('luca.strebel@gmx.ch' => 'Luca Strebel'))
   		->setTo(array($user->getEmail() => $user->getUsername()))
-  		->setBody('Hallo ' . $user->getUsername() . ',</br> Du Kannst dein Passwor <a href="https://'
+  		->setBody('Hello ' . $user->getUsername() . ',</br> You can reset your Password <a href="https://'
   				. $_SERVER['SERVER_NAME'] . "/Registration/ResetPasswordForm?userId=" . $user->getUserId() . "&confirmationUUID=" .
-  				$user->getConfirmationUUID() . '">Hier</a> Zurücksetzen', 'text/html')
+  				$user->getConfirmationUUID() . '">Here</a>', 'text/html')
   		->setContentType("text/html");
   		$this->factory->getMailer()->send($message);
   	}
@@ -118,7 +118,7 @@ class RegistrationController extends BaseController
   				"userId" => $userId,
   		]);
   	} else{
-  		MessageHandler::danger("ungültiger Link!");
+  		MessageHandler::danger("invalid link!");
   		return $this->redirectToAction("Index", "Index");
   	}
   }
@@ -129,19 +129,19 @@ class RegistrationController extends BaseController
    */
   public function ResetPassword($userId, $confirmationUUID, $password, $passwordConfirm){
   	if($password != $passwordConfirm){
-  		MessageHandler::danger("Passwort und Bestätigung stimmen nicht überein.");
+  		MessageHandler::danger("Password and confirmation don't match.");
   		return $this->redirectToAction("Registration", "ResetPasswordForm", ["userId" => $userId, "confirmationUUID" => $confirmationUUID]);
   	}
   	if(!$this->checkPassword($password)){
-  		MessageHandler::danger("Passwort: mind. 8 Zeichen, 1 Zahl + 1 Buchstabe");
+  		MessageHandler::danger("Password must be between 8 and 20 characters, 1 number and 1 character small and big");
   		return $this->redirectToAction("Registration", "ResetPasswordForm", ["userId" => $userId, "confirmationUUID" => $confirmationUUID]);
   	}
 	$userService = $this->factory->getUserService();
 	if($userService->updatePassword($userId, $password)){
-		MessageHandler::success("Passwort wurde aktualisiert");
+		MessageHandler::success("Passwort has been updated");
 		return $this->redirectToAction("Login", "Index");
 	} else {
-		MessageHandler::danger("Es ist ein Fehler aufgetreten");
+		MessageHandler::danger("An error occured");
 		return $this->redirectToAction("Registration", "ResetPasswordForm", ["userId" => $userId, "confirmationUUID" => $confirmationUUID]);
 	}
   }

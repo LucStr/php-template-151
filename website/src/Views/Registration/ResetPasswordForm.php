@@ -1,12 +1,12 @@
-<h1>Passwort Zurücksetzen</h1>
+<h1>Reset Password</h1>
 <form action="/Registration/ResetPassword" method="POST">
 	<?= $html->renderCSRF() ?>
-	<label>Passwort:</label>
+	<label>Password:</label>
 	<input type="password" name="password"/><br>
-	<label>Passwort bestatigen:</label>
+	<label>Confirm password:</label>
 	<input type="password" name="passwordConfirm"/><br>
 	<input type="hidden" name="userId" value="<?= $userId?>"/>
 	<input type="hidden" name="confirmationUUID" value="<?= $confirmationUUID?>"/>
 	
-	<input value="Bestätigen" type="submit" />
+	<input value="Confirm" type="submit" />
 </form>

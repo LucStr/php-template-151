@@ -21,7 +21,7 @@ class LoginController extends BaseController
   	$userService = $this->factory->getUserService();
   	$user = $userService->getUserByUsername($username);
   	if(!$user->getActivated()){  		
-  		MessageHandler::danger("Bitte bestätige deine Mail");
+  		MessageHandler::danger("Please Confirm your Mail");
   		return $this->view("Login", "Index", [
   				"username" => $username  				
   		]);
@@ -32,7 +32,7 @@ class LoginController extends BaseController
   		$_SESSION["username"] = $user->getusername();
   		return $this->redirectToAction("Index", "Index");
   	} else{
-  		MessageHandler::danger("Login fehlgeschlagen!");
+  		MessageHandler::danger("Login failed!");
   		return $this->view("Login", "Index", [
   				"username" => $username  				
   		]);

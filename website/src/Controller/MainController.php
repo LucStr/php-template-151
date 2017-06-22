@@ -11,14 +11,14 @@ class MainController extends BaseController
   public function Index($villageId)
   {
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please login first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();
   	$villageService->updateVillageById($villageId);
   	$village = $villageService->getDetailedVillageById($villageId);
   	if($village["userId"] != $_SESSION["userId"]){
-  		MessageHandler::danger("Du hast keine Berechtigung für dieses Dorf!");
+  		MessageHandler::danger("You dont have the permission to visit this village");
   		return $this->redirectToAction("Index", "Index");
   	}
   	return $this->view(["village" => $village]);
@@ -27,7 +27,7 @@ class MainController extends BaseController
  
   public function Build($villageId, $building){
   	if(!isset($_SESSION["userId"])){
-  		MessageHandler::info("Bitte logge dich zuerst ein!");
+  		MessageHandler::info("Please login first!");
   		return $this->redirectToAction("Index", "Index");
   	}
   	$villageService = $this->factory->getVillageService();

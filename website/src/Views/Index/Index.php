@@ -1,14 +1,14 @@
 <h1>Browsergame</h1>
-<div>Dieses Spiel wurde von Luca Strebel programmiert :)</div>
+<div>This Browsergame was developped by Luca Strebel</div>
 <?php
 if(isset($_SESSION["username"])){
 	?>
-		Hallo <?= htmlentities($_SESSION["username"]) ?>,<br>
-		Du bist eingeloggt, möchtest du die Welt <a href="/Village">hier</a> betreten?
+		Hello <?= htmlentities($_SESSION["username"]) ?>,<br>
+		You are logged in, Do you want to enter <a href="/Village">here</a>?
 		<?php 
 	} else{
 		?>
-		Du musst dich <a href="/Login">einloggen</a>
+		You need to <a href="/Login">log in</a>
 		<?php
 	}
 ?>

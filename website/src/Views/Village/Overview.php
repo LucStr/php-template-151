@@ -5,18 +5,18 @@
 	<input style="display:none" id="villagename" type="text" name="villagename" value="<?= htmlentities($village["name"]) ?>"/>
 </form>
 <div>
-	<h2>Ressourcen:</h2>
-	Holz : <?= intval($village["wood"])?>(<?=intval($village["woodproduction"])?> / Stunde)<br>
-	Stein : <?= intval($village["stone"])?>(<?=intval($village["stoneproduction"])?> / Stunde)<br>
+	<h2>Ressources:</h2>
+	Wood : <?= intval($village["wood"])?>(<?=intval($village["woodproduction"])?> / Hour)<br>
+	Stone : <?= intval($village["stone"])?>(<?=intval($village["stoneproduction"])?> / Hour)<br>
 	Gold : <?= intval($village["gold"])?>
 </div>
 <div id="buildings">
 	
 </div>
 <ul>
-	<li><a href="/Main?villageId=<?= $village["villageId"]?>">Hauptgebäude</a></li>
+	<li><a href="/Main?villageId=<?= $village["villageId"]?>">Main</a></li>
 </ul>
-<a href="/Village">Alle Dörfer</a>
+<a href="/Village">All villages</a>
 <script>
 	$("#villageTitle").on("click", function(){
 		$("#villageTitle").hide();
